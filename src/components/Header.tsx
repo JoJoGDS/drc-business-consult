@@ -65,19 +65,21 @@ export default function Header() {
 
       {/* Dropdown Mobile Menu */}
       {/* Animated slide-down dropdown for mobile with backdrop blur */}
+      {/* Blur the entire screen except header when menu is open */}
       <div
         className={`fixed inset-0 z-30 md:hidden transition-opacity duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-        onClick={() => setMenuOpen(false)}
+        aria-hidden={!menuOpen}
       >
-        {/* Blur the background, but don't block interaction below the menu panel */}
+        {/* Blur overlay below header */}
         <div
-          className="absolute left-0 w-full bg-black/20 backdrop-blur-sm transition-all duration-500 ease-in-out will-change-[opacity,backdrop-filter]"
-          style={{top: '64px', height: 'calc(100vh - 64px)', transition: 'opacity 0.5s cubic-bezier(0.4,0,0.2,1), backdrop-filter 0.5s cubic-bezier(0.4,0,0.2,1)'}}
-          aria-hidden="true"
+          className="fixed inset-0 top-[64px] w-full h-[calc(100vh-64px)] bg-black/50 backdrop-blur-lg transition-all duration-500 ease-in-out will-change-[opacity,backdrop-filter]"
+          style={{ zIndex: 30 }}
+          onClick={() => setMenuOpen(false)}
         ></div>
+        {/* Mobile menu panel above blur */}
         <div
           className={`absolute left-0 w-full max-w-full bg-white shadow-lg p-6 flex flex-col gap-4 rounded-b-xl transform transition-transform duration-300 ${menuOpen ? 'translate-y-0' : '-translate-y-4'} mt-[64px] sm:mt-[68px]`}
-          style={{boxShadow: '0 8px 32px rgba(0,0,0,0.06)', borderBottomLeftRadius: '1rem', borderBottomRightRadius: '1rem', top: '0'}} // modern drop shadow, rounded bottom
+          style={{boxShadow: '0 8px 32px rgba(0,0,0,0.06)', borderBottomLeftRadius: '1rem', borderBottomRightRadius: '1rem', top: '0', zIndex: 40}}
           onClick={(e) => e.stopPropagation()}
         >
           <nav className="flex flex-col gap-3">
