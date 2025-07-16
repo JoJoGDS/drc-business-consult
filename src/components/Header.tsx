@@ -27,10 +27,10 @@ export default function Header() {
   </span>
   {/* Hamburger menu at right on mobile */}
   <button
-    className="md:hidden flex items-center justify-center ml-auto p-2 rounded-full shadow-md bg-white transition-all duration-300 hover:bg-[#f0f2f5] active:bg-[#e6e9ef] focus:outline-none focus:ring-2 focus:ring-[#0c7ff2]"
+    className="md:hidden flex items-center justify-center ml-auto p-2 rounded-full shadow-md bg-white transition-all duration-300 hover:bg-[#f0f2f5] active:bg-[#e6e9ef] focus:outline-none focus:ring-2 focus:ring-[#0c7ff2] z-50"
     aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
     onClick={() => setMenuOpen((open) => !open)}
-    style={{ boxShadow: '0 2px 8px rgba(12,127,242,0.09)' }}
+    style={{ boxShadow: '0 2px 8px rgba(12,127,242,0.09)', position: 'relative' }}
   >
     <div className="relative w-7 h-7 flex items-center justify-center">
       {/* Premium Hamburger/X animation */}
