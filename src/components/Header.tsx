@@ -7,11 +7,13 @@ import { useUI } from "@/contexts/UIContext";
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { isServicesMenuOpen, toggleServicesMenu, closeServicesMenu } = useUI();
+  const [mobileSubMenu, setMobileSubMenu] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const closeMobileMenu = () => {
+  const closeAllMenus = () => {
     setMenuOpen(false);
     closeServicesMenu();
+    setMobileSubMenu(false);
   };
 
   // Close dropdown when clicking outside
@@ -98,31 +100,38 @@ export default function Header() {
 
       {/* Mobile Menu */}
       <div className={`fixed inset-0 z-30 md:hidden transition-opacity duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} aria-hidden={!menuOpen}>
-        <div className="fixed inset-0 top-[64px] w-full h-[calc(100vh-64px)] bg-black/50 backdrop-blur-lg" onClick={closeMobileMenu}></div>
-        <div className={`fixed left-0 right-0 w-full bg-white shadow-lg p-6 flex flex-col gap-4 rounded-b-xl transform transition-all duration-300 ease-in-out ${menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`} style={{ top: '58px', zIndex: 40 }}>
-          <nav className="flex flex-col gap-2 w-full">
-            <Link href="/#about" className="text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeMobileMenu}>À propos</Link>
-            
-            <div>
+        <div className="fixed inset-0 top-[64px] w-full h-[calc(100vh-64px)] bg-black/50 backdrop-blur-lg" onClick={closeAllMenus}></div>
+        <div className={`fixed left-0 right-0 w-full bg-white shadow-lg p-6 rounded-b-xl transform transition-all duration-300 ease-in-out ${menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`} style={{ top: '58px', zIndex: 40, overflow: 'hidden' }}>
+          <div className={`transition-transform duration-300 ease-in-out ${mobileSubMenu ? '-translate-x-full' : 'translate-x-0'}`}>
+            <nav className="flex flex-col gap-2 w-full">
+              <Link href="/#about" className="text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>À propos</Link>
+              
               <button 
                 className="w-full flex justify-between items-center text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50"
-                onClick={toggleServicesMenu}
+                onClick={() => setMobileSubMenu(true)}
               >
                 Nos Services
-                <svg className={`w-5 h-5 transition-transform duration-300 ${isServicesMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
               </button>
-              {isServicesMenuOpen && (
-                <div className="pl-4 mt-2 flex flex-col gap-1">
-                  <Link href="/visit" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeMobileMenu}>Visiter la RDC</Link>
-                  <Link href="/business" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeMobileMenu}>Faire des affaires</Link>
-                  <Link href="/transport" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeMobileMenu}>Transport</Link>
-                </div>
-              )}
-            </div>
 
-            <Link href="/#why" className="text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeMobileMenu}>Pourquoi nous choisir</Link>
-            <Link href="/#contact" className="text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeMobileMenu}>Contact</Link>
-          </nav>
+              <Link href="/#why" className="text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Pourquoi nous choisir</Link>
+              <Link href="/#contact" className="text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Contact</Link>
+            </nav>
+          </div>
+          <div className={`absolute top-0 left-0 w-full h-full bg-white p-6 transition-transform duration-300 ease-in-out ${mobileSubMenu ? 'translate-x-0' : 'translate-x-full'}`}>
+            <button 
+              className="w-full flex items-center text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50 mb-4"
+              onClick={() => setMobileSubMenu(false)}
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+              Retour
+            </button>
+            <nav className="flex flex-col gap-1 pl-4">
+              <Link href="/visit" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Visiter la RDC</Link>
+              <Link href="/business" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Faire des affaires</Link>
+              <Link href="/transport" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Transport</Link>
+            </nav>
+          </div>
         </div>
       </div>
     </header>
