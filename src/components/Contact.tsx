@@ -5,7 +5,7 @@ export default function Contact() {
         <div className="absolute -top-20 right-0 w-72 h-72 bg-[#F05E0E]/10 rounded-full blur-3xl z-0 animate-pulse-slower" aria-hidden="true"></div>
         <h2 className="text-3xl md:text-4xl font-heading font-black mb-4 bg-gradient-to-r from-[#FFA500] to-[#F05E0E] bg-clip-text text-transparent drop-shadow">Contactez-nous</h2>
         <p className="text-[#60758a] mb-8 font-body">
-          Écrivez-nous pour discuter de votre projet ou planifier un rendez-vous. Notre équipe d'experts est à votre disposition pour vous accompagner dans la réalisation de vos objectifs en République Démocratique du Congo.
+          Écrivez-nous pour discuter de votre projet ou planifier un rendez-vous. Notre équipe d&apos;experts est à votre disposition pour vous accompagner dans la réalisation de vos objectifs en République Démocratique du Congo.
         </p>
         <div className="space-y-4 max-w-md mx-auto bg-white rounded-xl shadow-xl border border-[#f0f2f5] p-8 mt-8">
           <p className="text-[#111418] flex items-center justify-center gap-2 font-body">

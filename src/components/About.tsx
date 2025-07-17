@@ -23,15 +23,15 @@ export default function About() {
           </p>
           
           <p className="text-[#4b5563] text-sm sm:text-base leading-relaxed">
-            Chez DRC Business Consult, nous croyons que la réussite d'un projet – qu'il s'agisse d'un séjour professionnel, d'un investissement ou de l'implantation d'une entreprise – commence par une <span className="text-[#111418] font-medium">bonne orientation, des démarches fluides et un accompagnement de qualité.</span>
+            Chez DRC Business Consult, nous croyons que la réussite d&apos;un projet – qu&apos;il s&apos;agisse d&apos;un séjour professionnel, d&apos;un investissement ou de l&apos;implantation d&apos;une entreprise – commence par une <span className="text-[#111418] font-medium">bonne orientation, des démarches fluides et un accompagnement de qualité.</span>
           </p>
           
           <p className="text-[#4b5563] text-sm sm:text-base leading-relaxed">
-            Nous accompagnons particuliers, entreprises et institutions dans leurs démarches de voyage, d'implantation, de création d'entreprise et de développement d'activités en RDC. Notre approche est fondée sur la connaissance du terrain, la rigueur administrative et un réseau d'experts multidisciplinaires.
+            Nous accompagnons particuliers, entreprises et institutions dans leurs démarches de voyage, d&apos;implantation, de création d&apos;entreprises et de développement d&apos;activités en RDC. Notre approche est fondée sur la connaissance du terrain, la rigueur administrative et un réseau d&apos;experts multidisciplinaires.
           </p>
           
           <p className="text-[#4b5563] text-sm sm:text-base leading-relaxed">
-            Qu'il s'agisse d'un séjour professionnel, d'un projet d'investissement ou de la structuration d'un partenariat local, nous vous apportons des solutions concrètes, sécurisées et sur mesure.
+            Qu&apos;il s&apos;agisse d&apos;un séjour professionnel, d&apos;un projet d&apos;investissement ou de la structuration d&apos;un partenariat local, nous vous apportons des solutions concrètes, sécurisées et sur mesure.
           </p>
           
           <p className="text-[#111418] text-base sm:text-lg font-medium mt-6">

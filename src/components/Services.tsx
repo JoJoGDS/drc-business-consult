@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 const services = [
   {
     title: "Stratégie & Croissance",
-    description: "Nous aidons les entreprises à définir et à mettre en œuvre des stratégies gagnantes pour leur croissance.",
+    description: "Nous aidons les d&apos;entreprises à d&apos;affaires et à mettre en œuvre des stratégies gagnantes pour leur croissance.",
     image: "/images/strategie-croissance.jpg",
   },
   {

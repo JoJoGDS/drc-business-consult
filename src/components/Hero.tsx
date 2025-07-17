@@ -43,7 +43,7 @@ export default function Hero() {
           transition={{ delay: 0.35, duration: 0.8 }}
           className="mt-4 sm:mt-6 text-white text-sm sm:text-base md:text-lg px-6 max-w-2xl mx-auto"
         >
-          Votre porte d'entrée stratégique en République Démocratique du Congo
+          Votre porte d&apos;entrée stratégique en République Démocratique du Congo
         </motion.p>
 
       <motion.div
