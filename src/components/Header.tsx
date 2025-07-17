@@ -3,10 +3,14 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 export default function Header() {
+  // Placeholder to avoid layout jump due to fixed header
+  // Place <Header /> at the top of your layout, then this below it
+  // <div className="min-h-[58px] md:min-h-[64px]" />
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="relative flex items-center px-4 sm:px-6 md:px-10 py-2 md:py-2.5 sticky top-0 w-full min-h-[58px] md:min-h-[64px] bg-white/80 dark:bg-white/70 backdrop-blur-sm shadow-lg z-40">
+    <header className="fixed top-0 left-0 right-0 w-full z-50 flex items-center px-4 sm:px-6 md:px-10 py-2 md:py-2.5 min-h-[58px] md:min-h-[64px] bg-white/95 backdrop-blur-sm shadow-md">
 
   {/* Logo + company name at left on desktop/tablet; logo left, name centered on mobile */}
   <div className="flex items-center md:flex-col md:items-start min-w-0">
@@ -23,15 +27,21 @@ export default function Header() {
     </span>
   </div>
   {/* Centered company name on mobile only */}
-  <span className="block md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[#111418] text-xs font-semibold tracking-widest uppercase drop-shadow-sm text-center pointer-events-none select-none" style={{letterSpacing: '0.13em'}}>
+  <span className="block md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[#111418] text-[11px] font-semibold tracking-widest uppercase drop-shadow-sm text-center pointer-events-none select-none whitespace-nowrap overflow-hidden text-ellipsis max-w-[180px]" style={{letterSpacing: '0.13em'}}>
     DRC BUSINESS CONSULT
   </span>
   {/* Hamburger menu at right on mobile */}
   <button
-    className="md:hidden flex items-center justify-center ml-auto p-2 rounded-full shadow-md bg-white transition-all duration-300 hover:bg-[#f0f2f5] active:bg-[#e6e9ef] focus:outline-none focus:ring-2 focus:ring-[#0c7ff2] z-50"
+    className="md:hidden flex items-center justify-center ml-auto p-3 rounded-full shadow-md bg-white transition-all duration-200 hover:bg-[#f0f2f5] active:bg-[#e6e9ef] focus:outline-none focus:ring-2 focus:ring-[#0c7ff2] z-50"
     aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
     onClick={() => setMenuOpen((open) => !open)}
-    style={{ boxShadow: '0 2px 8px rgba(12,127,242,0.09)', position: 'relative' }}
+    style={{ 
+      boxShadow: '0 2px 8px rgba(12,127,242,0.09)',
+      position: 'relative',
+      minWidth: '44px',
+      minHeight: '44px',
+      touchAction: 'manipulation'
+    }}
   >
     <div className="relative w-7 h-7 flex items-center justify-center">
       {/* Premium Hamburger/X animation */}
@@ -79,10 +89,29 @@ export default function Header() {
         ></div>
         {/* Mobile menu panel above blur */}
         <div
-          className={`absolute left-0 w-full max-w-full bg-white shadow-lg p-6 flex flex-col gap-4 rounded-b-xl transform transition-transform duration-300 ${menuOpen ? 'translate-y-0' : '-translate-y-4'} mt-[64px] sm:mt-[68px]`}
-          style={{boxShadow: '0 8px 32px rgba(0,0,0,0.06)', borderBottomLeftRadius: '1rem', borderBottomRightRadius: '1rem', top: '0', zIndex: 40}}
+          className={`fixed left-0 right-0 w-full bg-white shadow-lg p-6 flex flex-col gap-4 rounded-b-xl transform transition-all duration-300 ease-in-out ${menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'}`}
+          style={{
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+            borderBottomLeftRadius: '1rem',
+            borderBottomRightRadius: '1rem',
+            top: '58px',
+            zIndex: 40,
+            maxHeight: 'calc(100vh - 58px)',
+            overflowY: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}
           onClick={(e) => e.stopPropagation()}
         >
+          {/* Hide scrollbar for WebKit browsers */}
+          <style jsx>{`
+            div::-webkit-scrollbar {
+              display: none;
+              width: 0;
+              height: 0;
+            }
+          `}</style>
           <nav className="flex flex-col gap-3">
             <a href="#about" className="text-base font-medium text-[#111418] transition-all duration-200 rounded-lg px-2 py-2 hover:bg-[#f0f2f5] hover:text-[#0c7ff2] hover:scale-105 active:bg-[#e6e9ef]" onClick={() => setMenuOpen(false)}>À propos</a>
             <Link href="/visit" className="text-base font-medium text-[#111418] transition-all duration-200 rounded-lg px-2 py-2 hover:bg-[#f0f2f5] hover:text-[#0c7ff2] hover:scale-105 active:bg-[#e6e9ef]" onClick={() => setMenuOpen(false)}>Visiter la RDC</Link>

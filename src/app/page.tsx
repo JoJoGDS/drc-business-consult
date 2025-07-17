@@ -8,14 +8,19 @@ import Footer from "@/components/Footer"
 
 export default function HomePage() {
   return (
-    <main className="font-['Work_Sans','Noto_Sans',sans-serif] bg-white">
+    <div className="bg-gradient-to-b from-white via-[#f9fafb] to-[#f0f2f5] min-h-screen antialiased w-full">
       <Header />
-      <Hero />
-      <About />
-      <Services />
-      <WhyChooseUs />
-      <Contact />
-      <Footer />
-    </main>
+      <div className="min-h-[58px] md:min-h-[64px]" />
+      <main className="overflow-x-hidden">
+        <div className="max-w-[100vw]">
+          <Hero />
+          <About />
+          <Services />
+          <WhyChooseUs />
+          <Contact />
+          <Footer />
+        </div>
+      </main>
+    </div>
   )
 }
