@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { inter, poppins } from "./fonts";
 import { UIProvider } from "@/contexts/UIContext";
+import { ParticlesBackground } from "@/components/ParticlesBackground";
 
 export const metadata: Metadata = {
   title: "DRC BUSINESS CONSULT",
@@ -25,8 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${inter.variable} ${poppins.variable} font-body antialiased [font-smooth:always]`}>
-      <body className="font-body bg-white text-[#111418] overflow-x-hidden">
-        <UIProvider>{children}</UIProvider>
+      <body className="font-body text-[#111418] overflow-x-hidden">
+        <UIProvider>
+          <ParticlesBackground />
+          {children}
+        </UIProvider>
       </body>
     </html>
   );
