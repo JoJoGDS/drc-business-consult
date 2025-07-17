@@ -1,5 +1,6 @@
 "use client"
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 const services = [
   {
@@ -53,9 +54,11 @@ export default function Services() {
             >
               <div className="h-40 sm:h-48 md:h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
                 {s.image ? (
-                  <img
+                  <Image
                     src={s.image}
                     alt={s.title}
+                    width={500}
+                    height={300}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />

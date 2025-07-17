@@ -2,6 +2,13 @@
 import { motion } from 'framer-motion'
 
 export default function Hero() {
+  const handleDiscoverClick = () => {
+    const servicesSection = document.getElementById('services');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="relative flex justify-center w-full px-4 py-12 sm:py-16 md:py-20 lg:py-24 bg-white overflow-hidden">
       <div
@@ -56,6 +63,7 @@ export default function Hero() {
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
+          onClick={handleDiscoverClick}
           className="h-12 sm:h-14 px-5 sm:px-7 bg-[#F05E0E] text-white font-heading font-bold rounded-full shadow-xl flex items-center justify-center gap-2 text-sm sm:text-base md:text-lg hover:shadow-2xl hover:bg-[#ffa500] focus:outline-none focus:ring-2 focus:ring-[#FFA500] transition-all duration-200 group w-full sm:w-auto"
         >
           Découvrir nos services
