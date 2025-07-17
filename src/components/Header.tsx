@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -9,14 +10,14 @@ export default function Header() {
 
   {/* Logo + company name at left on desktop/tablet; logo left, name centered on mobile */}
   <div className="flex items-center md:flex-col md:items-start min-w-0">
-    <div className="rounded-full bg-white/90 border border-[#f0f2f5] shadow-sm p-1 transition-transform transition-shadow duration-200 hover:scale-105 hover:brightness-105 cursor-pointer">
+    <Link href="/" className="rounded-full bg-white/90 border border-[#f0f2f5] shadow-sm p-1 transition-transform transition-shadow duration-200 hover:scale-105 hover:brightness-105 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0c7ff2]" tabIndex={0} aria-label="Accueil DRC Business Consult">
       <img
         src="/images/logo.png"
         alt="DRC Business Consult logo"
         className="w-[44px] h-auto sm:w-[64px] md:w-[80px] flex-shrink-0"
         style={{ display: 'block', height: 'auto', maxWidth: '100%' }}
       />
-    </div>
+    </Link>
     <span className="hidden md:block mt-1 text-[#111418] text-[10px] sm:text-xs md:text-xs lg:text-sm font-semibold tracking-widest uppercase drop-shadow-sm text-left" style={{letterSpacing: '0.13em'}}>
       DRC BUSINESS CONSULT
     </span>
@@ -54,7 +55,7 @@ export default function Header() {
       <div className="hidden md:flex flex-1 justify-end gap-8 items-center">
         <nav className="flex items-center gap-7">
           <a href="#about" className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]">À propos</a>
-          <a href="#visit" className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]">Visiter la RDC</a>
+          <Link href="/visit" className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]">Visiter la RDC</Link>
           <a href="#business" className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]">Faire des affaires</a>
           <a href="#why" className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]">Pourquoi nous choisir</a>
           <a href="#contact" className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]">Contact</a>
@@ -84,7 +85,7 @@ export default function Header() {
         >
           <nav className="flex flex-col gap-3">
             <a href="#about" className="text-base font-medium text-[#111418] transition-all duration-200 rounded-lg px-2 py-2 hover:bg-[#f0f2f5] hover:text-[#0c7ff2] hover:scale-105 active:bg-[#e6e9ef]" onClick={() => setMenuOpen(false)}>À propos</a>
-            <a href="#visit" className="text-base font-medium text-[#111418] transition-all duration-200 rounded-lg px-2 py-2 hover:bg-[#f0f2f5] hover:text-[#0c7ff2] hover:scale-105 active:bg-[#e6e9ef]" onClick={() => setMenuOpen(false)}>Visiter la RDC</a>
+            <Link href="/visit" className="text-base font-medium text-[#111418] transition-all duration-200 rounded-lg px-2 py-2 hover:bg-[#f0f2f5] hover:text-[#0c7ff2] hover:scale-105 active:bg-[#e6e9ef]" onClick={() => setMenuOpen(false)}>Visiter la RDC</Link>
             <a href="#business" className="text-base font-medium text-[#111418] transition-all duration-200 rounded-lg px-2 py-2 hover:bg-[#f0f2f5] hover:text-[#0c7ff2] hover:scale-105 active:bg-[#e6e9ef]" onClick={() => setMenuOpen(false)}>Faire des affaires</a>
             <a href="#why" className="text-base font-medium text-[#111418] transition-all duration-200 rounded-lg px-2 py-2 hover:bg-[#f0f2f5] hover:text-[#0c7ff2] hover:scale-105 active:bg-[#e6e9ef]" onClick={() => setMenuOpen(false)}>Pourquoi nous choisir</a>
             <a href="#contact" className="text-base font-medium text-[#111418] transition-all duration-200 rounded-lg px-2 py-2 hover:bg-[#f0f2f5] hover:text-[#0c7ff2] hover:scale-105 active:bg-[#e6e9ef]" onClick={() => setMenuOpen(false)}>Contact</a>
