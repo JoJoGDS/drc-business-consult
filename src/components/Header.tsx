@@ -91,6 +91,9 @@ export default function Header() {
                 <Link href="/transport" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Transport</Link>
                 <Link href="/telecom" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Télécommunications</Link>
                 <Link href="/mines" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mines</Link>
+                <Link href="/hydrocarbure" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Hydrocarbures</Link>
+                <Link href="/energies" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Énergies</Link>
+                <Link href="/assurances" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Assurances</Link>
               </div>
             )}
           </div>
@@ -124,7 +127,7 @@ export default function Header() {
             className={`absolute top-0 left-0 w-full h-full bg-white p-0 transition-transform duration-300 ease-in-out ${
               mobileSubMenu ? 'translate-x-0' : 'translate-x-full'
             }`}
-            style={{ minWidth: '100vw', width: '100vw', maxWidth: '100vw' }}
+            style={{ minWidth: '100vw', width: '100vw', maxWidth: '100vw', zIndex: 100 }}
           >
             <div className="p-6 h-full flex flex-col">
               <button
@@ -136,13 +139,23 @@ export default function Header() {
                 </svg>
                 Retour
               </button>
-              <nav className="flex flex-col gap-1 pl-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
-                <Link href="/visit" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Visiter la RDC</Link>
-                <Link href="/business" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Faire des affaires</Link>
-                <Link href="/transport" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Transport</Link>
-                <Link href="/telecom" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Télécommunications</Link>
-                <Link href="/mines" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Mines</Link>
-                {/* Add more options here if needed */}
+              <nav
+                className="flex flex-col gap-1 pl-2 pr-2 overflow-y-auto"
+                style={{
+                  maxHeight: 'calc(100vh - 120px)',
+                  WebkitOverflowScrolling: 'touch',
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: '#FFA500 #f0f2f5'
+                }}
+              >
+                <Link href="/visit" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-3 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Visiter la RDC</Link>
+                <Link href="/business" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-3 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Faire des affaires</Link>
+                <Link href="/transport" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-3 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Transport</Link>
+                <Link href="/telecom" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-3 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Télécommunications</Link>
+                <Link href="/mines" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-3 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Mines</Link>
+                <Link href="/hydrocarbure" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-3 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Hydrocarbures</Link>
+                <Link href="/energies" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-3 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Énergies</Link>
+                <Link href="/assurances" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-3 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Assurances</Link>
               </nav>
             </div>
           </div>
