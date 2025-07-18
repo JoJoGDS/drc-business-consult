@@ -36,7 +36,7 @@ export default function HydrocarburePage() {
           transition={{ delay: 0.3, duration: 0.7 }}
           className="text-[#60758a] text-sm sm:text-base md:text-lg mb-8 font-body leading-relaxed"
         >
-          Longtemps sous-exploité, le secteur des hydrocarbures en République Démocratique du Congo représente aujourd’hui un axe stratégique de diversification économique. Avec d'importantes réserves prouvées et une volonté politique d'ouverture aux investisseurs privés, la RDC attire un intérêt croissant dans l’exploration, la production et la distribution pétrolière et gazière.
+          Longtemps sous-exploité, le secteur des hydrocarbures en République Démocratique du Congo représente aujourd’hui un axe stratégique de diversification économique. Avec d&apos;importantes réserves prouvées et une volonté politique d&apos;ouverture aux investisseurs privés, la RDC attire un intérêt croissant dans l’exploration, la production et la distribution pétrolière et gazière.
         </motion.p>
 
         {/* Sections */}

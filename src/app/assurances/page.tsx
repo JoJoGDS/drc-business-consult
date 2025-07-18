@@ -67,7 +67,6 @@ export default function AssurancesPage() {
               <li>Demande forte dans les secteurs minier, transport, santé, construction</li>
             </ul>
           </motion.div>
-
           {/* Pourquoi investir ? */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }}>
             <h3 className="font-bold text-[#FFA500] text-lg flex items-center gap-2 mb-3 font-heading">
@@ -75,12 +74,11 @@ export default function AssurancesPage() {
             </h3>
             <ul className="list-disc list-inside space-y-1 text-[#111418] font-body">
               <li>Marché vierge avec forte marge de progression</li>
-              <li>Cadre juridique renforcé par la création de l'ARCA (Autorité de Régulation et de Contrôle des Assurances)</li>
+              <li>Cadre juridique renforcé par la création de l&#39;ARCA (Autorité de Régulation et de Contrôle des Assurances)</li>
               <li>Obligation légale d’assurance pour plusieurs secteurs (véhicules, travaux publics, vie, etc.)</li>
               <li>Besoin croissant des entreprises pour se conformer aux normes de gestion des risques</li>
             </ul>
           </motion.div>
-
           {/* Notre accompagnement */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.5 }}>
             <h3 className="font-bold text-[#FFA500] text-lg flex items-center gap-2 mb-3 font-heading">
