@@ -89,6 +89,8 @@ export default function Header() {
                 <Link href="/visit" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Visiter la RDC</Link>
                 <Link href="/business" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Faire des affaires</Link>
                 <Link href="/transport" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Transport</Link>
+                <Link href="/telecom" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Télécommunications</Link>
+                <Link href="/mines" onClick={closeServicesMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mines</Link>
               </div>
             )}
           </div>
@@ -118,19 +120,31 @@ export default function Header() {
               <Link href="/#contact" className="text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Contact</Link>
             </nav>
           </div>
-          <div className={`absolute top-0 left-0 w-full h-full bg-white p-6 transition-transform duration-300 ease-in-out ${mobileSubMenu ? 'translate-x-0' : 'translate-x-full'}`}>
-            <button 
-              className="w-full flex items-center text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50 mb-4"
-              onClick={() => setMobileSubMenu(false)}
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
-              Retour
-            </button>
-            <nav className="flex flex-col gap-1 pl-4">
-              <Link href="/visit" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Visiter la RDC</Link>
-              <Link href="/business" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Faire des affaires</Link>
-              <Link href="/transport" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Transport</Link>
-            </nav>
+          <div
+            className={`absolute top-0 left-0 w-full h-full bg-white p-0 transition-transform duration-300 ease-in-out ${
+              mobileSubMenu ? 'translate-x-0' : 'translate-x-full'
+            }`}
+            style={{ minWidth: '100vw', width: '100vw', maxWidth: '100vw' }}
+          >
+            <div className="p-6 h-full flex flex-col">
+              <button
+                className="w-full flex items-center text-lg font-medium text-gray-900 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50 mb-4"
+                onClick={() => setMobileSubMenu(false)}
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Retour
+              </button>
+              <nav className="flex flex-col gap-1 pl-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+                <Link href="/visit" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Visiter la RDC</Link>
+                <Link href="/business" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Faire des affaires</Link>
+                <Link href="/transport" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Transport</Link>
+                <Link href="/telecom" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Télécommunications</Link>
+                <Link href="/mines" className="block text-base font-medium text-gray-700 hover:text-[#F05E0E] transition-colors py-2 px-3 rounded-lg hover:bg-gray-50" onClick={closeAllMenus}>Mines</Link>
+                {/* Add more options here if needed */}
+              </nav>
+            </div>
           </div>
         </div>
       </div>
