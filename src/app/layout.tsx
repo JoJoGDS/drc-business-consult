@@ -1,22 +1,21 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { inter, poppins } from "./fonts";
-import { UIProvider } from "@/contexts/UIContext";
-import { ParticlesBackground } from "@/components/ParticlesBackground";
+import './globals.css';
+import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { UIProvider } from '@/contexts/UIContext';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "DRC BUSINESS CONSULT",
-  description: "DRC Business Consult - Votre partenaire en RDC",
-  icons: {
-    icon: "/images/logo.png",
-  },
-  themeColor: "#FFA500",
-  viewport: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover",
-  other: {
-    "mobile-web-app-capable": "yes",
-    "apple-mobile-web-app-capable": "yes",
-    "apple-mobile-web-app-status-bar-style": "black-translucent",
-  }
+  title: 'DRC Business Consult',
+  description: 'Empowering Your Business Journey',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({
@@ -25,13 +24,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${inter.variable} ${poppins.variable} font-body antialiased [font-smooth:always]`}>
+    // Set lang to "fr" for French, or "en" for English
+    <html lang="fr" className={inter.className}>
       <body className="font-body text-[#111418] overflow-x-hidden">
+        {/* Wrap with UIProvider to provide context to Header and others */}
         <UIProvider>
-          <ParticlesBackground />
+          <Header />
           {children}
+          <Footer />
         </UIProvider>
       </body>
     </html>
   );
 }
+
+// Make sure your layout file is in the correct location:
+// It should be at: /home/nocodedev/Documents/drc-business-consult/src/app/layout.tsx
+// not in /app/layout.tsx at the project root.
+
+// If this file is not in src/app/layout.tsx, move it there.
