@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createClient } from "@supabase/supabase-js";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { updateStatus, logout } from "./actions";
 
 type Reservation = {
   id: string;
@@ -11,46 +12,28 @@ type Reservation = {
   created_at: string;
 };
 
-// ✅ Client Supabase admin
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-);
-
 // ✅ Récupère toutes les réservations
 async function getReservations() {
+  const supabase = createServerComponentClient({ cookies });
   const { data, error } = await supabase
     .from("reservations")
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (error) console.error(error);
+  if (error) {
+    console.error(error);
+    return [];
+  }
   return data || [];
 }
 
-// Server Action for updating status
-export async function updateStatus(formData: FormData) {
-  "use server";
-  const id = formData.get("id") as string;
-  const status = formData.get("status") as string;
-  await supabase.from("reservations").update({ status }).eq("id", id);
-}
-
-// Logout server action
-export async function logout() {
-  "use server";
-  const cookieStore = await cookies();
-  cookieStore.delete('admin_auth');
-  redirect("/admin/login");
-}
-
 export default async function AdminReservationsPage() {
-  // ✅ Vérification du cookie admin_auth
-  const cookieStore = await cookies();
-  const isAdmin = cookieStore.get("admin_auth")?.value;
+  // Check if user is authenticated
+  const supabase = createServerComponentClient({ cookies });
+  const { data: { session } } = await supabase.auth.getSession();
 
-  if (!isAdmin) {
-    redirect("/admin/login"); // redirige vers login si pas logué
+  if (!session) {
+    redirect("/admin/login");
   }
 
   const reservations = await getReservations();
