@@ -105,7 +105,7 @@ export default function AdminLoginPage() {
           </form>
           
           <div className="mt-6 text-center text-sm text-gray-500">
-            <p>Pour toute assistance, veuillez contacter l'administrateur</p>
+            <p>Pour toute assistance, veuillez contacter l&apos;administrateur</p>
           </div>
         </div>
       </div>
