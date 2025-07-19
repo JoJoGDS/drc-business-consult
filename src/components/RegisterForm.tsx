@@ -1,11 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { FcGoogle } from "react-icons/fc";
 
-export default function LoginForm() {
+import { useState, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { FcGoogle } from 'react-icons/fc';
+
+export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function LoginForm() {
       setLoading(true);
       setMessage(null);
       
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/auth/callback?next=/user/dashboard`,
@@ -55,9 +56,9 @@ export default function LoginForm() {
     <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="p-8">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">Connexion</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Créer un compte</h2>
           <p className="text-gray-600 mt-2">
-            Accédez à votre espace personnel
+            Rejoignez notre communauté en un clic
           </p>
         </div>
 
@@ -73,7 +74,7 @@ export default function LoginForm() {
 
         <div className="space-y-4">
           <div className="text-sm text-gray-600 text-center mb-6">
-            Connectez-vous pour accéder à votre compte
+            En vous inscrivant, vous acceptez nos conditions d'utilisation et notre politique de confidentialité.
           </div>
 
           <div>
@@ -90,9 +91,9 @@ export default function LoginForm() {
         </div>
 
         <div className="mt-8 text-center text-sm text-gray-600">
-          <p>Pas encore de compte ?{' '}
-            <Link href="/auth/register" className="font-medium text-orange-600 hover:text-orange-500">
-              Créer un compte
+          <p>Déjà un compte ?{' '}
+            <Link href="/login" className="font-medium text-orange-600 hover:text-orange-500">
+              Se connecter
             </Link>
           </p>
         </div>

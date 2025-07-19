@@ -3,12 +3,37 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useUI } from "@/contexts/UIContext";
+import { createClient } from "@/lib/supabase/client";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { isServicesMenuOpen, toggleServicesMenu, closeServicesMenu } = useUI();
   const [mobileSubMenu, setMobileSubMenu] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      setLoading(false);
+    };
+    
+    getUser();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    
+    return () => subscription.unsubscribe();
+  }, []);
+  
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/';
+  };
 
   const closeAllMenus = () => {
     setMenuOpen(false);
@@ -99,6 +124,34 @@ export default function Header() {
           </div>
 
           <Link href="/#why" className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]">Pourquoi nous choisir</Link>
+          
+          {!loading && (
+            <div className="relative group">
+              {user ? (
+                <div className="flex items-center space-x-2">
+                  <Link 
+                    href="/user/dashboard"
+                    className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]"
+                  >
+                    Mon Espace
+                  </Link>
+                  <button 
+                    onClick={handleSignOut}
+                    className="text-xs font-light text-[#111418] tracking-wide px-3 py-1.5 rounded-md transition-all duration-200 hover:bg-gray-100"
+                  >
+                    Déconnexion
+                  </button>
+                </div>
+              ) : (
+                <Link 
+                  href="/login" 
+                  className="text-xs font-light text-[#111418] tracking-wide px-3 py-1.5 rounded-md transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]"
+                >
+                  Connexion
+                </Link>
+              )}
+            </div>
+          )}
           <Link href="/#contact" className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]">Contact</Link>
         </nav>
       </div>
