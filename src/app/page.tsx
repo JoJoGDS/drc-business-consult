@@ -8,7 +8,6 @@ import About from '@/components/About';
 import Services from '@/components/Services';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
 
 export default function HomePage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -80,7 +79,6 @@ export default function HomePage() {
           <Services />
           <WhyChooseUs />
           <Contact />
-          <Footer />
         </div>
       </main>
     </div>

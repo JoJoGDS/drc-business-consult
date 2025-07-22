@@ -5,7 +5,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { UIProvider } from '@/contexts/UIContext';
 import { Providers } from './Providers';
-import { OAuthHandler } from '@/components/Auth/OAuthHandler';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -31,8 +30,6 @@ export default function RootLayout({
       <body className="font-body text-[#111418] overflow-x-hidden">
         {/* Wrap with Providers to handle client-side rendering */}
         <Providers>
-          {/* Handle OAuth callbacks */}
-          <OAuthHandler />
           {/* Wrap with UIProvider to provide context to Header and others */}
           <UIProvider>
             <Header />
