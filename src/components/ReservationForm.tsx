@@ -105,14 +105,23 @@ export default function ReservationForm() {
       timestamp: new Date().toISOString()
     };
     
+    // Prepare data for Django API
+    const reservationData = {
+      name: personalInfo.name,
+      email: personalInfo.email,
+      phone: personalInfo.phone,
+      service: activeTab, // translation, assistance, or guide
+      message: JSON.stringify(formData) // Store all form data as JSON in the message field
+    };
+    
     try {
-      const res = await fetch("/api/reservation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (res.ok) {
+      // Import the Django client
+      const { createReservation } = await import('../lib/django/client');
+      
+      // Create reservation using Django API
+      const result = await createReservation(reservationData);
+      
+      if (result) {
         setSuccess(true);
         // Reset form
         setDocuments([]);

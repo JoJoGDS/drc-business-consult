@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-fs_@*utd3us_2he8p-ijj)nysa$32h8x%(aum9dt8(=yc&vysb'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-fs_@*utd3us_2he8p-ijj)nysa$32h8x%(aum9dt8(=yc&vysb')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,8 +30,28 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True  # For development only
+CORS_ALLOW_CREDENTIALS = True  # Allow cookies to be sent with requests
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Next.js default port
+]
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
 
 
@@ -44,6 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'reservations',
     'users',
@@ -125,6 +147,20 @@ USE_I18N = True
 
 USE_TZ = True
 
+# REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # Change to AllowAny to allow unauthenticated access by default
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
