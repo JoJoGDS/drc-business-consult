@@ -18,7 +18,7 @@ export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
     setError(null);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_DJANGO_API_URL}/auth/login/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_DJANGO_API_URL}/auth/admin-login/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

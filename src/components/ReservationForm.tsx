@@ -1,77 +1,89 @@
 "use client";
+
 import { useState, useEffect } from "react";
-import { createReservation } from "@/lib/django/client";
+import { useAuth } from "@/contexts/AuthContext";
 
-type TranslationDocument = {
-  type: string;
-  otherType?: string;
-  sourceLanguage: string;
-  targetLanguage: string;
-  needsLegalization: boolean;
-};
-
-type AdministrativeAssistance = {
-  appointment: boolean;
-  legalDossier: boolean;
-  counterAssistance: boolean;
-  details: string;
-};
-
-type LocalGuide = {
-  duration: string;
-  language: string;
-  locations: string;
-  culturalAssistance: boolean;
-  localContacts: boolean;
-  fieldMission: boolean;
-};
-
-export default function ReservationForm() {
+const ReservationForm = () => {
+  const { isAuthenticated, token, user } = useAuth();
   const [mounted, setMounted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'translation' | 'assistance' | 'guide'>('translation');
-  
-  // Translation state
-  const [documents, setDocuments] = useState<TranslationDocument[]>([]);
-  const [currentDoc, setCurrentDoc] = useState<TranslationDocument>({
-    type: 'Contrat / Accord',
-    sourceLanguage: 'Français',
-    targetLanguage: 'Anglais',
-    needsLegalization: false
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: "",
   });
-  
-  // Administrative Assistance state
-  const [assistance, setAssistance] = useState<AdministrativeAssistance>({
-    appointment: false,
-    legalDossier: false,
-    counterAssistance: false,
-    details: ''
-  });
-  
-  // Local Guide state
-  const [guide, setGuide] = useState<LocalGuide>({
-    duration: 'demi-journée',
-    language: 'Français',
-    locations: '',
-    culturalAssistance: false,
-    localContacts: false,
-    fieldMission: false
-  });
-  
-  // Personal info
-  const [personalInfo, setPersonalInfo] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    notes: ''
-  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    // Pre-fill form with user data if authenticated
+    if (isAuthenticated && user) {
+      setFormData(prev => ({
+        ...prev,
+        name: `${user.first_name} ${user.last_name}`.trim() || user.username,
+        email: user.email,
+      }));
+    }
+  }, [isAuthenticated, user]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setErrorMessage("");
+
+    try {
+      const headers: any = {
+        "Content-Type": "application/json",
+      };
+
+      // Add authorization header if user is authenticated
+      if (isAuthenticated && token) {
+        headers["Authorization"] = `Token ${token}`;
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_DJANGO_API_URL}/reservations/`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(formData),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to submit reservation");
+      }
+
+      setSubmitStatus("success");
+      // Reset form if not authenticated (to allow multiple anonymous submissions)
+      if (!isAuthenticated) {
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          service: "",
+          message: "",
+        });
+      } else {
+        // Keep user info but reset other fields
+        setFormData(prev => ({
+          ...prev,
+          phone: "",
+          service: "",
+          message: "",
+        }));
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmitStatus("error");
+      setErrorMessage(error instanceof Error ? error.message : "An error occurred");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // This useEffect helps prevent hydration mismatch by ensuring
   // the component is only rendered client-side
@@ -82,99 +94,6 @@ export default function ReservationForm() {
       </div>
     );
   }
-  
-  const documentTypes = [
-    'Contrat / Accord',
-    'Pièce d\'identité',
-    'Documents juridiques / notariés',
-    'Documents fiscaux / administratifs',
-    'Correspondance professionnelle',
-    'Autre'
-  ];
-  
-  const languages = ['Français', 'Anglais', 'Swahili', 'Autre'];
-  
-  const handleAddDocument = () => {
-    setDocuments([...documents, currentDoc]);
-    setCurrentDoc({
-      type: 'Contrat / Accord',
-      sourceLanguage: 'Français',
-      targetLanguage: 'Anglais',
-      needsLegalization: false
-    });
-  };
-  
-  const handleRemoveDocument = (index: number) => {
-    const newDocs = [...documents];
-    newDocs.splice(index, 1);
-    setDocuments(newDocs);
-  };
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setSuccess(false);
-    
-    const formData = {
-      personalInfo,
-      translation: documents.length > 0 ? { documents } : null,
-      assistance: assistance.appointment || assistance.legalDossier || assistance.counterAssistance ? assistance : null,
-      guide: guide.duration || guide.language || guide.locations ? guide : null,
-      timestamp: new Date().toISOString()
-    };
-    
-    // Prepare data for Django API
-    const reservationData = {
-      name: personalInfo.name,
-      email: personalInfo.email,
-      phone: personalInfo.phone,
-      service: activeTab, // translation, assistance, or guide
-      message: JSON.stringify(formData) // Store all form data as JSON in the message field
-    };
-    
-    try {
-      setError(null);
-      console.log('Submitting reservation:', reservationData);
-      
-      // Create reservation using Django API
-      const result = await createReservation(reservationData);
-      console.log('Reservation result:', result);
-      
-      if (result) {
-        setSuccess(true);
-        // Reset form
-        setDocuments([]);
-        setAssistance({
-          appointment: false,
-          legalDossier: false,
-          counterAssistance: false,
-          details: ''
-        });
-        setGuide({
-          duration: 'demi-journée',
-          language: 'Français',
-          locations: '',
-          culturalAssistance: false,
-          localContacts: false,
-          fieldMission: false
-        });
-        setPersonalInfo({
-          name: '',
-          email: '',
-          phone: '',
-          company: '',
-          notes: ''
-        });
-      } else {
-        throw new Error("Erreur lors de l'envoi");
-      }
-    } catch (error) {
-      setError("Une erreur est survenue lors de l'envoi de votre réservation. Veuillez réessayer.");
-      console.error("Reservation error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
@@ -193,8 +112,8 @@ export default function ReservationForm() {
               <input
                 type="text"
                 required
-                value={personalInfo.name}
-                onChange={(e) => setPersonalInfo({...personalInfo, name: e.target.value})}
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
             </div>
@@ -203,8 +122,8 @@ export default function ReservationForm() {
               <input
                 type="email"
                 required
-                value={personalInfo.email}
-                onChange={(e) => setPersonalInfo({...personalInfo, email: e.target.value})}
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
             </div>
@@ -213,8 +132,8 @@ export default function ReservationForm() {
               <input
                 type="tel"
                 required
-                value={personalInfo.phone}
-                onChange={(e) => setPersonalInfo({...personalInfo, phone: e.target.value})}
+                value={formData.phone}
+                onChange={(e) => setFormData({...formData, phone: e.target.value})}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
             </div>
@@ -222,8 +141,8 @@ export default function ReservationForm() {
               <label className="block text-sm font-medium text-gray-700 mb-1">Entreprise/Organisation</label>
               <input
                 type="text"
-                value={personalInfo.company}
-                onChange={(e) => setPersonalInfo({...personalInfo, company: e.target.value})}
+                value={formData.company}
+                onChange={(e) => setFormData({...formData, company: e.target.value})}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
             </div>
@@ -631,4 +550,6 @@ export default function ReservationForm() {
       )}
     </div>
   );
-}
+};
+
+export default ReservationForm;

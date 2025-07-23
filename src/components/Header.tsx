@@ -1,15 +1,16 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { useUI } from "@/contexts/UIContext";
 import { createClient } from "@/lib/supabase/client";
+import { useAuth } from '@/contexts/AuthContext';
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { isServicesMenuOpen, toggleServicesMenu, closeServicesMenu } = useUI();
   const [mobileSubMenu, setMobileSubMenu] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const { isAuthenticated, user, logout } = useAuth();
   const [loading, setLoading] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
@@ -125,33 +126,26 @@ export default function Header() {
 
           <Link href="/#why" className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]">Pourquoi nous choisir</Link>
           
-          {!loading && (
-            <div className="relative group">
-              {user ? (
-                <div className="flex items-center space-x-2">
-                  <Link 
-                    href="/user/dashboard"
-                    className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]"
-                  >
-                    Mon Espace
-                  </Link>
-                  <button 
-                    onClick={handleSignOut}
-                    className="text-xs font-light text-[#111418] tracking-wide px-3 py-1.5 rounded-md transition-all duration-200 hover:bg-gray-100"
-                  >
-                    Déconnexion
-                  </button>
-                </div>
-              ) : (
-                <Link 
-                  href="/login" 
-                  className="text-xs font-light text-[#111418] tracking-wide px-3 py-1.5 rounded-md transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]"
-                >
-                  Connexion
+          <div className="flex items-center space-x-4">
+            {isAuthenticated ? (
+              <>
+                <Link href="/my-reservations" className="text-gray-700 hover:text-orange-600">
+                  Mes Réservations
                 </Link>
-              )}
-            </div>
-          )}
+                <span className="text-gray-600">Bonjour, {user?.first_name || user?.username}</span>
+                <button 
+                  onClick={logout}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                >
+                  Déconnexion
+                </button>
+              </>
+            ) : (
+              <Link href="/auth" className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
+                Se connecter
+              </Link>
+            )}
+          </div>
           <Link href="/#contact" className="text-xs font-light text-[#111418] tracking-wide px-1 py-1 transition-all duration-200 hover:text-[#F05E0E] hover:underline hover:underline-offset-8 hover:decoration-2 hover:decoration-[#FFA500]">Contact</Link>
         </nav>
       </div>
