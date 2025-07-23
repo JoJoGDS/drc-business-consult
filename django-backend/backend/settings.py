@@ -33,6 +33,7 @@ CORS_ALLOW_ALL_ORIGINS = True  # For development only
 CORS_ALLOW_CREDENTIALS = True  # Allow cookies to be sent with requests
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Next.js default port
+    "http://127.0.0.1:3000",  # Alternative Next.js access
 ]
 CORS_ALLOW_METHODS = [
     'DELETE',
@@ -154,11 +155,16 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # Change to AllowAny to allow unauthenticated access by default
+        'rest_framework.permissions.AllowAny',  # Allow unauthenticated access by default
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
     ],
 }
 

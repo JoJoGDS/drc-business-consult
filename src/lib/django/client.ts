@@ -1,5 +1,9 @@
 // Django API client
-const API_URL = process.env.NEXT_PUBLIC_DJANGO_API_URL || 'http://localhost:8000/api';
+const API_URL = typeof window !== 'undefined' 
+  ? (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000/api'
+    : process.env.NEXT_PUBLIC_DJANGO_API_URL || '/api')
+  : process.env.NEXT_PUBLIC_DJANGO_API_URL || 'http://localhost:8000/api';
 
 interface LoginCredentials {
   email: string;
@@ -76,10 +80,15 @@ export async function createReservation(data: ReservationData, token?: string) {
     headers['Authorization'] = `Token ${token}`;
   }
 
+  console.log('Sending reservation to:', `${API_URL}/reservations/`);
+  console.log('With data:', data);
+
   const response = await fetch(`${API_URL}/reservations/`, {
     method: 'POST',
     headers,
     body: JSON.stringify(data),
+    credentials: 'include',
+    mode: 'cors',
   });
 
   if (!response.ok) {
